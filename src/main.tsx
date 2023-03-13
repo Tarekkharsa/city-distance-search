@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "./index.css";
+
 import {
   createBrowserRouter,
   Navigate,
@@ -8,7 +10,8 @@ import {
 } from "react-router-dom";
 import SearchResult from "./screens/SearchResult";
 import Search from "./screens/Search";
-import ErrorPage from "./error-page";
+import ErrorPage from "./screens/ErrorPage";
+import Example from "./screens/interview";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/result",
         element: <SearchResult />,
+      },
+      {
+        path: "/example",
+        element: <Example />,
       },
       {
         path: "/",

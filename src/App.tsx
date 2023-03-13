@@ -3,7 +3,8 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="layout">
+    <div className="App">
+      <div className="background"></div>
       <Outlet />
     </div>
   );

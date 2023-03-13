@@ -1,18 +1,17 @@
-.App {
+.error-app {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Inter", sans-serif;
+  flex-direction: column;
 }
 
 .background {
   position: fixed;
-  width: 5vw;
-  height: 5vh;
+  width: 50vw;
+  height: 50vh;
   left: 25%;
   top: 25%;
-  background: red;
   background: conic-gradient(
     from 167.75deg at 26.05% 40.64%,
     rgba(207, 238, 187, 0.881587) -18.97deg,
@@ -26,4 +25,9 @@
   filter: blur(150px);
   background-size: cover;
   z-index: -1;
+}
+.error-msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
