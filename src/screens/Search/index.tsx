@@ -75,7 +75,7 @@ export default function Search() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-8">
         <div>
           <Controller
             control={control}
@@ -99,7 +99,10 @@ export default function Search() {
 
           {fields.map(({ id, name }, index) => {
             return (
-              <div className={" flex justify-between items-center "} key={id}>
+              <div
+                className={" flex justify-between items-center relative "}
+                key={id}
+              >
                 <Controller
                   key={id}
                   control={control}
@@ -120,7 +123,7 @@ export default function Search() {
                 />
                 {index > 0 && (
                   <button
-                    className="text-indigo-600"
+                    className="text-indigo-600 absolute -right-6 top-[36px]"
                     type="button"
                     onClick={() => remove(index)}
                   >

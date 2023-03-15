@@ -1,10 +1,16 @@
-export function Spinner({ showSpinner }: { showSpinner: boolean }) {
+export function Spinner({
+  showSpinner,
+  combobox,
+}: {
+  showSpinner: boolean;
+  combobox?: boolean;
+}) {
   return (
     <div
       // className={`absolute right-0 top-[6px] transition-opacity ${
-      className={` transition-opacity ${
-        showSpinner ? "opacity-100" : "opacity-0"
-      }`}
+      className={` ${
+        combobox ? "absolute right-0 top-[6px]" : ""
+      } transition-opacity ${showSpinner ? "opacity-100" : "opacity-0"} `}
     >
       <svg
         className="-ml-1 mr-3 h-5 w-5 animate-spin"
