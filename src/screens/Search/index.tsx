@@ -4,9 +4,9 @@ import queryString from "query-string";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import InputNumber from "../../components/InputNumber";
 import ComboBoxExample from "../../components/combobox";
 import DatePickerComponent from "../../components/datepicker";
+import NumberInput from "../../components/inputNumber";
 
 const citySchema = z.object({
   city_origin: z.array(z.union([z.string(), z.number(), z.number()])).nonempty({
@@ -46,7 +46,7 @@ export default function Search() {
     defaultValues: {
       city_origin: [],
       city_destinations: [{ name: [] }],
-      passengers: 0,
+      passengers: 1,
       date: undefined,
     },
   });
@@ -155,10 +155,10 @@ export default function Search() {
           </div>
         </div>
         <div className="flex flex-col w-[50%] ml-2 ">
-          <InputNumber
+          <NumberInput
             lable={"Passengers"}
             name={"passengers"}
-            register={register}
+            control={control}
             errors={errors}
           />
           <DatePickerComponent
@@ -166,9 +166,9 @@ export default function Search() {
             control={control}
             name={"date"}
             label="Date"
-            helperText=""
             defaultYear="2001"
           />
+          <div className="pt-4"></div>
         </div>
       </div>
       <div className="flex mt-2  justify-center">

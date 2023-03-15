@@ -1,44 +1,67 @@
 import { ErrorMessage } from "@hookform/error-message";
+import React from "react";
+import { Controller } from "react-hook-form";
 
-export default function InputNumber({
-  name,
-  lable,
-  register,
-  errors,
-}: {
+type NumberInputProps = {
   name: string;
   lable: string;
-  register: any;
+  control: any;
   errors: any;
-}) {
+};
+
+const NumberInput: React.FC<NumberInputProps> = ({
+  name,
+  control,
+  lable,
+  errors,
+}) => {
+  const handlePlus = (value: number, setValue: any) => {
+    setValue(value + 1);
+  };
+
+  const handleMinus = (value: number, setValue: any) => {
+    setValue(value - 1);
+  };
+
   return (
-    <div className="custom-number-input h-10 w-32 mb-8">
+    <div className="relative">
       <label
         htmlFor="custom-input-number"
         className="w-full text-gray-600 text-sm font-semibold"
       >
         {lable}
       </label>
-      <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-        <button
-          data-action="decrement"
-          className="  text-gray-600 hover:text-gray-600 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
-        >
-          <span className="m-auto text-2xl font-thin">−</span>
-        </button>
-        <input
-          type="number"
-          name={name}
-          className="border border-gray-300 rounded-md focus:outline-none text-center w-full  font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-600  "
-          {...register(name, { valueAsNumber: true })}
-        />
-        <button
-          data-action="increment"
-          className=" text-gray-600 hover:text-gray-600 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
-        >
-          <span className="m-auto text-2xl font-thin">+</span>
-        </button>
-      </div>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={0}
+        render={({ field: { onChange, value } }) => (
+          <div className="flex justify-center items-center relative w-[60%]">
+            <button
+              type="button"
+              className="w-6 absolute right-1  bg-blue-200
+              text-white rounded-md hover:bg-[#7786D2] "
+              onClick={() => handlePlus(value, onChange)}
+            >
+              +
+            </button>
+            <input
+              type="number"
+              value={value}
+              onChange={(e) => onChange(Number(e.target.value))}
+              className="p-2 w-full border border-gray-300 rounded-md  text-center"
+            />
+            <button
+              type="button"
+              className="w-6 absolute left-1  bg-blue-200
+              text-white rounded-md hover:bg-[#7786D2] "
+              onClick={() => handleMinus(value, onChange)}
+            >
+              -
+            </button>
+          </div>
+        )}
+      />
       <ErrorMessage
         errors={errors}
         name={name}
@@ -48,4 +71,6 @@ export default function InputNumber({
       />
     </div>
   );
-}
+};
+
+export default NumberInput;

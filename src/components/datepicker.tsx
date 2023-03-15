@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@hookform/error-message";
 import clsx from "clsx";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -33,7 +34,7 @@ export default function DatePickerComponent({
         name={name}
         render={({ field: { onChange, onBlur, value } }) => (
           <>
-            <div className="relative mt-1">
+            <div className="relative ">
               <ReactDatePicker
                 name={name}
                 onBlur={onBlur}
@@ -45,7 +46,7 @@ export default function DatePickerComponent({
                     : errors[name]
                     ? "focus:ring-red-500 border-red-500 focus:border-red-500"
                     : "focus:ring-primary-500 border-gray-300 focus:border-primary-500",
-                  "block w-full  shadow-sm border border-gray-300 rounded-md"
+                  "p-2 w-[60%] border border-gray-300 rounded-md  text-center"
                 )}
                 placeholderText={placeholder}
                 aria-describedby={name}
@@ -64,9 +65,13 @@ export default function DatePickerComponent({
                 <p className="text-xs text-gray-500">{helperText}</p>
               )}
               {errors[name] && (
-                <span className="text-sm text-red-500">
-                  {errors[name].message}
-                </span>
+                <ErrorMessage
+                  errors={errors}
+                  name={name}
+                  render={({ message }) => (
+                    <p className="text-[10px] text-[#EF5A5A]">{message}</p>
+                  )}
+                />
               )}
             </div>
           </>
