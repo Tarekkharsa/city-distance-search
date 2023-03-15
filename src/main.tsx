@@ -8,10 +8,9 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import SearchResult from "./screens/SearchResult";
-import Search from "./screens/Search";
 import ErrorPage from "./screens/ErrorPage";
-import Example from "./screens/interview";
+import Search from "./screens/Search";
+import SearchResult from "./screens/SearchResult";
 
 const router = createBrowserRouter([
   {
@@ -27,10 +26,6 @@ const router = createBrowserRouter([
       {
         path: "/result",
         element: <SearchResult />,
-      },
-      {
-        path: "/example",
-        element: <Example />,
       },
       {
         path: "/",

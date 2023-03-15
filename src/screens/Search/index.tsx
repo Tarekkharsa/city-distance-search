@@ -1,31 +1,33 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import queryString from "query-string";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import InputNumber from "../../components/InputNumber";
 import ComboBoxExample from "../../components/combobox";
+import DatePickerComponent from "../../components/datepicker";
 import "./index.css";
-import DatepickerComponent from "../../components/datepicker";
 
-const testsSchema = z.array(
-  z.object({
-    name: z.array(z.union([z.string(), z.number(), z.number()])),
-  })
-);
-const cityItemSchema = z
-  .array(z.union([z.string(), z.number(), z.number()]))
-  .nonempty({
-    message: "You must choose the city of origin",
-  });
 const citySchema = z.object({
-  city_origin: cityItemSchema,
-  // city_destination: cityItemSchema,
-  tests: testsSchema,
+  city_origin: z.array(z.union([z.string(), z.number(), z.number()])).nonempty({
+    message: "You must choose the city of origin",
+  }),
+  city_destinations: z.array(
+    z.object({
+      name: z.array(z.union([z.string(), z.number(), z.number()])),
+    })
+  ),
+  passengers: z.number().min(1).max(10),
+  date: z.date(),
 });
 
 // Infer the TS type according to the zod schema.
 type CityType = z.infer<typeof citySchema>;
-type CityItemType = z.infer<typeof cityItemSchema>;
 
 export default function Search() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -44,16 +46,31 @@ export default function Search() {
     resolver: zodResolver(citySchema), // Configuration the validation with the zod schema.
     defaultValues: {
       city_origin: [],
-      // city_destination: [],
-      tests: [{ name: [] }],
+      city_destinations: [{ name: [] }],
+      passengers: 0,
+      date: undefined,
     },
   });
   const { fields, append, remove } = useFieldArray({
-    name: "tests",
+    name: "city_destinations",
     control,
   });
-  const onSubmit = (city: CityType) => {
-    console.log("dans onSubmit", city);
+
+  const onSubmit = (data: CityType) => {
+    const destinations = data.city_destinations.map((city) => city.name);
+    const query = queryString.stringifyUrl({
+      url: "/result",
+      query: {
+        date: format(data.date, "dd/MM/yyyy"),
+        passengers: data.passengers,
+        city_origin: data.city_origin,
+        city_destinations: queryString.stringify(destinations, {
+          arrayFormat: "index",
+        }),
+      },
+    });
+
+    navigate(`${query}`);
     reset();
   };
 
@@ -88,17 +105,17 @@ export default function Search() {
                   <Controller
                     key={id}
                     control={control}
-                    name={`tests.${index}.name`}
+                    name={`city_destinations.${index}.name`}
                     defaultValue={name}
                     render={({ field: { onChange, value, name } }) => (
                       <ComboBoxExample
                         label="City of destination"
                         onChange={onChange}
                         value={value}
-                        name={`tests.${index}.name`}
+                        name={`city_destinations.${index}.name`}
                         errors={errors}
                         handleReset={() => {
-                          resetField(`tests.${index}.name`);
+                          resetField(`city_destinations.${index}.name`);
                         }}
                       />
                     )}
@@ -139,8 +156,21 @@ export default function Search() {
               </button>
             </div>
           </div>
-          <div className="flex flex-col ">
-            <DatepickerComponent />
+          <div className="flex flex-col w-[50%] ml-2 ">
+            <InputNumber
+              lable={"Passengers"}
+              name={"passengers"}
+              register={register}
+              errors={errors}
+            />
+            <DatePickerComponent
+              errors={errors}
+              control={control}
+              name={"date"}
+              label="Date"
+              helperText=""
+              defaultYear="2001"
+            />
           </div>
         </div>
         <div className="flex mt-2  justify-center">
