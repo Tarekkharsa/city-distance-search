@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import ComboBoxExample from "../../components/combobox";
 import DatePickerComponent from "../../components/datepicker";
-import NumberInput from "../../components/inputNumber";
+import NumberInput from "../../components/NumberInput";
 
 const citySchema = z.object({
   city_origin: z.array(z.union([z.string(), z.number(), z.number()])).nonempty({
