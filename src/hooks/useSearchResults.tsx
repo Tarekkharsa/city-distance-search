@@ -15,6 +15,8 @@ const schema = z.object({
 type fetchDataOptionsType = z.infer<typeof schema> | null;
 
 export default function useSearchResults() {
+  const [distances, setDistances] = useState<[string, number][]>();
+
   const [fetchDataOptions, setFetchDataOptions] =
     useState<fetchDataOptionsType>(null);
   const [destinations, setDestinations] = useState<
@@ -56,8 +58,8 @@ export default function useSearchResults() {
       );
     }
 
-    setFetchDataOptions(options);
     setDestinations(newDestinations);
+    setFetchDataOptions(options);
   }, []);
 
   useEffect(() => {
@@ -69,12 +71,13 @@ export default function useSearchResults() {
       fetchDataOptions.city_origin as [string, number, number],
       destinations
     ).then((distances) => {
-      console.log(distances);
+      setDistances(distances);
     });
   }, [fetchDataOptions, destinations]);
 
   return {
     fetchDataOptions,
     destinations,
+    distances,
   };
 }

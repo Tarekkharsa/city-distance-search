@@ -5,7 +5,9 @@ function App() {
   return (
     <div className="App">
       <div className="background"></div>
-      <Outlet />
+      <div className="card">
+        <Outlet />
+      </div>
     </div>
   );
 }
